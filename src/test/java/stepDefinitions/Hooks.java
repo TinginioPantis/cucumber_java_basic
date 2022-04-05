@@ -19,8 +19,11 @@ public class Hooks {
 
     @Before
     public void openBrowser() throws MalformedURLException {
-        if (System.getProperty("os.name").contains("Mac") || System.getProperty("os.name").contains("mac"))
+        String osName = System.getProperty("os.name");
+        if (osName.contains("Mac") || osName.contains("mac"))
             System.setProperty("webdriver.chrome.driver", libWithDriversLocation + "chromedriver");
+        else if (osName.contains("Linux"))
+            System.setProperty("webdriver.chrome.driver", libWithDriversLocation + "chromedriver.linux");
         else
             System.setProperty("webdriver.chrome.driver", libWithDriversLocation + "chromedriver.exe");
         driver = new ChromeDriver();
