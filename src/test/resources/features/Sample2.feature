@@ -1,3 +1,4 @@
+@agePage
 Feature: Introduction to cucumber part 2
   As a test engineer
   I want to be able to write and execute a scenario with parameters
@@ -16,3 +17,10 @@ Feature: Introduction to cucumber part 2
     And I enter age: 61
     And I click submit age
     Then I see message: "Hello, Bob, you are an adult"
+
+@ageError
+  Scenario: a new scenario error
+    When I enter name: "John"
+    And I click submit age
+    Then I see error: "You haven't entered anything in age field"
+    And I am not navigated to age message page

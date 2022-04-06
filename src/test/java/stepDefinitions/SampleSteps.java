@@ -11,8 +11,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SampleSteps {
     private WebDriver driver;
@@ -25,6 +24,7 @@ public class SampleSteps {
     public void iAmOnTheHomePage() throws Throwable {
         driver.get("https://kristinek.github.io/site");
     }
+
 
     @Then("^I should see home page header$")
     public void iShouldSeeHomePageHeader() throws Throwable {
@@ -100,4 +100,105 @@ public class SampleSteps {
     public void iAmOnActionPage() {
         driver.get("https://kristinek.github.io/site/examples/actions");
     }
+
+
+    @Given("^I am on the locators page$")
+    public void iAmOnTheLocatorsPage() throws Throwable {
+        driver.get("https://kristinek.github.io/site/examples/locators");
+    }
+
+    @Then("^I should see both locators page headers$")
+    public void iShouldSeeLocatorsPageHeaders() throws Throwable {
+//        assertTrue(driver.findElement(By.id("heading_1")).isDisplayed());
+//        assertTrue(driver.findElement(By.id("heading_2")).isDisplayed());
+        assertEquals("Heading 1", driver.findElement(By.id("heading_1")).getText());
+        assertEquals("Heading 2 text", driver.findElement(By.id("heading_2")).getText());
+
+    }
+
+    @And("^Buttons in Locators page are clickable$")
+    public void buttonsInLocatorsPageClickable() throws Throwable {
+        assertTrue(driver.findElement(By.name("randomButton1")).isEnabled());
+        assertTrue(driver.findElement(By.name("randomButton2")).isEnabled());
+    }
+
+    @Then("^I see error: \"([^\"]*)\"$")
+    public void iSeeError(String message) throws Throwable {
+        assertEquals(message, driver.findElement(By.id("error")).getText());
+    }
+
+    @And("^I am not navigated to age message page$")
+    public void iAmNotNavigatedToAgeMessagePage() throws Throwable {
+        assertEquals("https://kristinek.github.io/site/examples/age", driver.getCurrentUrl());
+        assertFalse(driver.getCurrentUrl().contains("https://kristinek.github.io/site/examples/age_2.html"));
+    }
+
+    @Given("^I (?:am on|open) provide feedback page$")
+    public void iAmOnProvideFeedbackPage() throws Throwable {
+        driver.get("https://kristinek.github.io/site/tasks/provide_feedback");
+    }
+
+    @Then("^I enter name in feedback: \"([^\"]*)\"$")
+    public void iEnterNameInFeedback(String name) throws Throwable {
+        driver.findElement(By.id("fb_name")).clear();
+        driver.findElement(By.id("fb_name")).sendKeys(name);
+    }
+
+    @And("^I enter age in feedback: ([^\"]*)$")
+    public void iEnterAgeInFeedback(String age) throws Throwable {
+        driver.findElement(By.id("fb_age")).clear();
+        driver.findElement(By.id("fb_age")).sendKeys(age);
+    }
+
+//    @And("^I enter age in feedback: (\\d+)$")
+//    public void iEnterAgeInFeedback(int age) throws Throwable {
+//        driver.findElement(By.id("fb_age")).sendKeys(String.valueOf(age));
+//    }
+
+    @And("^I click send button$")
+    public void iClickSendButton() throws Throwable {
+        driver.findElement(By.tagName("button")).click();
+    }
+
+    @Then("^I can see name \"([^\"]*)\" in the feedback check$")
+    public void iSeeNameInFeedbackCheck(String name) throws Throwable {
+        assertEquals(name, driver.findElement(By.id("name")).getText());
+    }
+
+    @Then("^I can see age \"([^\"]*)\" in the feedback check$")
+    public void iSeeAgeInFeedbackCheck(String age) throws Throwable {
+        assertEquals(age, driver.findElement(By.id("age")).getText());
+    }
+
+    @Given("^I am on enter a number page$")
+    public void iAmOnEnterNumberPage() throws Throwable {
+        driver.get("https://kristinek.github.io/site/tasks/enter_a_number");
+    }
+
+    @Then("^I enter number in a number page: \"([^\"]*)\"$")
+    public void iEnterNumberInNumberPage(String number) throws Throwable {
+        driver.findElement(By.id("numb")).clear();
+        driver.findElement(By.id("numb")).sendKeys(number);
+    }
+
+    @And("^I click submit button$")
+    public void iClickSubmitButton() throws Throwable {
+        driver.findElement(By.tagName("button")).click();
+    }
+
+    @Then("^I see message: \"([^\"]*)\" above submit button$")
+    public void iSeeMessageAboveSubmitButton(String message) throws Throwable {
+        assertEquals(message, driver.findElement(By.id("ch1_error")).getText());
+    }
+
+    @Given("^I enter number: (\\d+)$")
+    public void iEnterNumber(int number) throws Throwable {
+        driver.findElement(By.id("numb")).sendKeys(String.valueOf(number));
+    }
+
+    @Then("^I see alert message: \"([^\"]*)\"$")
+    public void iSeeAlertMessage(String message) throws Throwable {
+        assertEquals(message, driver.switchTo().alert().getText());
+    }
 }
+
